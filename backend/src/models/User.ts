@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema, Types, model } from "mongoose";
-import { ref } from "process";
 
 export type UserRole = "user" | "admin";
 
 export interface IUser extends Document {
   name: string;
-  numberPhone: number;
-  address: string[];
+  numberPhone: String;
+  password: String;
+  address: string;
   role: UserRole;
   orderHistory?: Types.ObjectId[];
   cart?: Types.ObjectId;
@@ -22,11 +22,16 @@ const userSchema = new Schema<IUser>(
       required: [true, "Name is required"],
     },
     numberPhone: {
-      type: Number,
+      type: String,
       required: [true, "Numberphone is required"],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
     },
     address: {
-      type: [{ String }],
+      type:  String ,
       required: [true, "Address is reqired or choose one"],
     },
     cart: {
