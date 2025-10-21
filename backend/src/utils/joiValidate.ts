@@ -54,3 +54,8 @@ export const loginSchema = Joi.object({
   numberPhone: registerSchema.extract("numberPhone"),
   password: registerSchema.extract("password"),
 });
+
+// export const otpSchema = Joi.object({
+//   numberPhone: registerSchema.extract("numberPhone"),
+//   otp: registerStep2Schema.extract("otp"),
+// });
