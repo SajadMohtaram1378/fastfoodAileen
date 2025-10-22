@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import redis from "../../src/config/redis";
 
 interface JwtPayload {
   id: string;
@@ -15,7 +16,11 @@ declare global {
   }
 }
 
-export const loginUser = (req: Request, res: Response, next: NextFunction) => {
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const token =
       req.headers.authorization?.split(" ")[1] ||
@@ -27,8 +32,12 @@ export const loginUser = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+    const isBlacklisted = await redis.get(`blacklistToken:${token}`);
+    if (isBlacklisted)
+      return res
+        .status(401)
+        .json({ ok: false, message: "توکن منقضی یا لغو شده است" });
 
-    // ذخیره اطلاعات کاربر در req برای دسترسی routeها
     req.user = { id: payload.id, role: payload.role };
     next();
   } catch (error: any) {

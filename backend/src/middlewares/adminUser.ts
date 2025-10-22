@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import redis from "../../src/config/redis";
 
 interface JwtPayload {
   id: string;
@@ -15,7 +16,11 @@ declare global {
   }
 }
 
-export const adminUser = (req: Request, res: Response, next: NextFunction) => {
+export const adminUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const token =
       req.headers.authorization?.split(" ")[1] ||
@@ -26,13 +31,16 @@ export const adminUser = (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).json({ ok: false, message: "توکن یافت نشد" });
     }
 
-    // بررسی اعتبار توکن
+    const isBlacklisted = await redis.get(`blacklistToken:${token}`);
+    if (isBlacklisted)
+      return res
+        .status(401)
+        .json({ ok: false, message: "توکن منقضی یا لغو شده است" });
+
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 
-    // ذخیره اطلاعات کاربر
     req.user = { id: payload.id, role: payload.role };
 
-    // بررسی نقش admin
     if (req.user.role !== "admin") {
       return res.status(403).json({ ok: false, message: "دسترسی مجاز نیست" });
     }
