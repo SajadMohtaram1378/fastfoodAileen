@@ -13,7 +13,8 @@ const orderHistory = new Schema<IOrder>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-boughtCart: { type: [Object], default: [] }  },
+    boughtCart: { type: [Object], default: [] },
+  },
   { timestamps: true }
 );
 

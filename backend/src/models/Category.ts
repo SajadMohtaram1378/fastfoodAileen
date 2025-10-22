@@ -16,6 +16,7 @@ const categorySchema = new Schema<ICategory>(
       trim: true,
       minlength: [2, "Category name must be at least 2 characters"],
       maxlength: [50, "Category name must be less than 50 characters"],
+      unique:true
     },
     image: {
       type: String,

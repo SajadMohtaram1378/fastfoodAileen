@@ -19,6 +19,7 @@ const productSchema = new Schema<IProduct>(
       trim: true,
       minlength: [2, "Product name must be at least 2 characters"],
       maxlength: [100, "Product name must be less than 100 characters"],
+      unique: true,
     },
     description: {
       type: String,
