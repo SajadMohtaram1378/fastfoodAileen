@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Category } from "../../src/models/Category";
-import { s3 } from "../../src/config/s3";
-import { Product } from "../../src/models/Product";
+import { Category } from "../../src/models/Category.js";
+import  s3  from "../config/arvans3.js";
+import { Product } from "../../src/models/Product.js";
 
 export const createProduct = async (req: Request, res: Response) => {
   try {

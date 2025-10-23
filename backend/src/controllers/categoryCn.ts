@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { s3 } from "../../src/config/s3";
-import { Category } from "../../src/models/Category";
+import  s3  from "../config/arvans3.js";
+import { Category } from "../../src/models/Category.js";
 
 export const createCategory = async (req: Request, res: Response) => {
   try {

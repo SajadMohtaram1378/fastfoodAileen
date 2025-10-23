@@ -1,7 +1,9 @@
 import express, { Request, Response, Application } from "express";
 import dotenv from "dotenv";
 import { connectToDataBase } from "./config/dbConnection.js";
-import authRoutes from "./routes/auth.routes.js"; // ← اینجا .js اضافه شد
+import authRoutes from "./routes/auth.routes.js"; 
+import productRoutes from "./routes/product.routes.js"
+import categoryRoutes from "./routes/category.routes.js"
 dotenv.config({ path: "./.env" });
 
 export const createApp = async () => {
@@ -13,6 +15,8 @@ const app: Application = express();
 
   // Routes
   app.use("/api/auth", authRoutes);
+  app.use("/api/product",productRoutes);
+  app.use("/api/category",categoryRoutes);
 
 
   // Default route
