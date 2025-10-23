@@ -88,7 +88,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
 export const getOneProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req?.params;
     if (!id) {
       return res.status(400).json({ message: "شناسه محصول الزامی است" });
     }
@@ -97,6 +97,7 @@ export const getOneProduct = async (req: Request, res: Response) => {
     if (!product) {
       return res.status(404).json({ message: "محصول یافت نشد" });
     }
+
     res.status(200).json({
       ok: true,
       message: "جزئیات محصول با موفقیت دریافت شد",
@@ -112,6 +113,162 @@ export const getOneProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteOneProduct = async (req: Request, res: Response) => {};
+export const deleteOneProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req?.params;
 
-export const updateOneProduct = async (req: Request, res: Response) => {};
+    // بررسی وجود ID
+    if (!id) {
+      return res.status(400).json({ message: "شناسه محصول الزامی است" });
+    }
+
+    // پیدا کردن محصول قبل از حذف (برای حذف عکس از Arvan)
+    const product = await Product.findById(id).exec();
+
+    if (!product) {
+      return res.status(404).json({ message: "محصول یافت نشد" });
+    }
+
+    if (product.images && product.images.length > 0) {
+      for (const imageUrl of product.images) {
+        const fileKey = imageUrl.split("/").pop();
+        if (fileKey) {
+          try {
+            await s3
+              .deleteObject({
+                Bucket: process.env.ARVAN_BUCKET_NAME!,
+                Key: fileKey,
+              })
+              .promise();
+          } catch (err) {
+            console.warn(`❗ حذف فایل ${fileKey} در Arvan ناموفق بود`, err);
+          }
+        }
+      }
+    }
+
+    await Product.findByIdAndDelete(id).exec();
+
+    res.status(200).json({
+      ok: true,
+      message: "محصول با موفقیت حذف شد",
+    });
+  } catch (error: any) {
+    console.error("❌ خطا در حذف محصول:", error);
+    res.status(500).json({
+      ok: false,
+      message: "خطایی در حذف محصول رخ داد",
+      error: error.message,
+    });
+  }
+};
+
+export const updateOneProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, description, category, price, isActive, removeOldImages } =
+      req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "شناسه محصول الزامی است" });
+    }
+
+    const product = await Product.findById(id).exec();
+    if (!product) {
+      return res.status(404).json({ message: "محصول یافت نشد" });
+    }
+
+    if (category) {
+      const categoryExists = await Category.findById(category);
+      if (!categoryExists) {
+        return res
+          .status(404)
+          .json({ message: "دسته‌بندی انتخاب‌شده وجود ندارد" });
+      }
+      product.category = category;
+    }
+
+    // 📦 آماده‌سازی لیست عکس‌های جدید
+    let newImages: string[] = [];
+
+    // ✅ اگر کاربر فقط یک عکس فرستاده باشد
+    if (req.file) {
+      const file = req.file as Express.Multer.File;
+      const fileName = `${Date.now()}-${file.originalname}`;
+      const uploadResult = await s3
+        .upload({
+          Bucket: process.env.ARVAN_BUCKET_NAME!,
+          Key: fileName,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+          ACL: "public-read",
+        })
+        .promise();
+      newImages.push(uploadResult.Location);
+    }
+    // ✅ اگر کاربر چند عکس فرستاده باشد
+    else if (req.files && Array.isArray(req.files)) {
+      for (const file of req.files as Express.Multer.File[]) {
+        const fileName = `${Date.now()}-${file.originalname}`;
+        const uploadResult = await s3
+          .upload({
+            Bucket: process.env.ARVAN_BUCKET_NAME!,
+            Key: fileName,
+            Body: file.buffer,
+            ContentType: file.mimetype,
+            ACL: "public-read",
+          })
+          .promise();
+        newImages.push(uploadResult.Location);
+      }
+    }
+
+    // ✅ حذف عکس‌های قدیمی (اختیاری)
+    if (removeOldImages && Array.isArray(removeOldImages)) {
+      for (const oldUrl of removeOldImages) {
+        const fileKey = oldUrl.split("/").pop();
+        if (fileKey) {
+          try {
+            await s3
+              .deleteObject({
+                Bucket: process.env.ARVAN_BUCKET_NAME!,
+                Key: fileKey,
+              })
+              .promise();
+          } catch (err) {
+            console.warn(`⚠️ حذف فایل ${fileKey} از Arvan ناموفق بود`, err);
+          }
+        }
+
+        // از لیست عکس‌ها حذفش کن
+        product.images = product.images?.filter((img) => img !== oldUrl) || [];
+      }
+    }
+
+    // ✅ به‌روزرسانی سایر فیلدها
+    if (name) product.name = name;
+    if (description) product.description = description;
+    if (price) product.price = price;
+    if (isActive !== undefined) product.isActive = isActive;
+
+    // ✅ افزودن عکس‌های جدید
+    if (newImages.length > 0) {
+      product.images = [...(product.images || []), ...newImages];
+    }
+
+    await product.save();
+
+    res.status(200).json({
+      ok: true,
+      message: "محصول با موفقیت بروزرسانی شد ✅",
+      product,
+    });
+  } catch (error: any) {
+    console.error("❌ خطا در بروزرسانی محصول:", error);
+    res.status(500).json({
+      ok: false,
+      message: "خطایی در بروزرسانی محصول رخ داد",
+      error: error.message,
+    });
+  }
+};

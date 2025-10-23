@@ -5,7 +5,7 @@ export interface IProduct extends Document {
   description?: string;
   category: Types.ObjectId;
   price: number;
-  images?: string[];
+  images: string[];
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
