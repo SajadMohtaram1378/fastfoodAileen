@@ -86,12 +86,10 @@ export const registerStep2 = async (
       await verifyOtp(numberPhone, otp);
     } catch (err: any) {
       console.error("❌ خطا در verifyOtp:", err);
-      return res
-        .status(400)
-        .json({
-          ok: false,
-          message: err.message || "کد تایید اشتباه یا منقضی شده است",
-        });
+      return res.status(400).json({
+        ok: false,
+        message: err.message || "کد تایید اشتباه یا منقضی شده است",
+      });
     }
 
     // 4️⃣ بررسی اینکه کاربر قبلاً ساخته نشده باشد
@@ -406,5 +404,23 @@ export const logOut = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("❌ خطای logOutController:", error);
     return res.status(500).json({ ok: false, message: "خطای سرور" });
+  }
+};
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 }).exec();
+    res.status(200).json({
+      ok: true,
+      count: users.length,
+      users: users,
+    });
+  } catch (error: any) {
+    console.error("❌ خطا در دریافت کاربران:", error);
+    res.status(500).json({
+      ok: false,
+      message: "خطایی در دریافت کاربران رخ داد",
+      error: error.message,
+    });
   }
 };

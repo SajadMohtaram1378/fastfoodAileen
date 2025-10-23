@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import redis from "../../src/config/redis";
+import redis from "../../src/config/redis.js";
 
 interface JwtPayload {
   id: string;
