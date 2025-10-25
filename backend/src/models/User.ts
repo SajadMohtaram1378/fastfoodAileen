@@ -6,7 +6,7 @@ export interface IUser extends Document {
   name: string;
   numberPhone: String;
   password: String;
-  address: string;
+  addresses?: Types.ObjectId[];
   role: UserRole;
   orderHistory?: Types.ObjectId[];
   cart?: Types.ObjectId;
@@ -30,10 +30,10 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-    address: {
-      type:  String ,
-      required: [true, "Address is reqired or choose one"],
-    },
+    addresses: [
+      { type: Schema.Types.ObjectId, ref: "Address", required: true },
+    ],
+
     cart: {
       type: Schema.Types.ObjectId,
       ref: "Cart",
