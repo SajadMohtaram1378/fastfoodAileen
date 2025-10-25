@@ -28,3 +28,7 @@ const AddressSchema = new Schema<IAddress>(
   },
   { timestamps: true }
 );
+
+
+export const Address = model<IAddress>("Address", AddressSchema);
+export default Address;
