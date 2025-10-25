@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --stage local",
-    "start": "node --loader ts-node/esm src/server.ts",
+    "start": "node -r ts-node/register src/server.ts",
     "buld": "tsc"
   },
   "keywords": [],

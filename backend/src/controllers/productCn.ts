@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { Category } from "../../src/models/Category.js";
 import  s3  from "../config/arvans3.js";
-import { Product } from "../../src/models/Product.js";
-
+import Product from "../../src/models/Product.js";
 export const createProduct = async (req: Request, res: Response) => {
   try {
     const { name, description, category, price, isActive } = req?.body;
