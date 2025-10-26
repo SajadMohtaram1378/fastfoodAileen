@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/multer": "^2.0.0",
     "aws-sdk": "^2.1692.0",
+    "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
@@ -24,7 +25,8 @@
     "kavenegar": "^1.1.4",
     "mongoose": "^8.19.1",
     "multer": "^2.0.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "zarinpal-checkout": "^0.3.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
