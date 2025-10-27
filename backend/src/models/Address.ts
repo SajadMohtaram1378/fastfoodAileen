@@ -8,6 +8,7 @@ export interface IAddress {
     lng: number;
   };
   isDefault: boolean;
+  price:number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -25,6 +26,9 @@ const AddressSchema = new Schema<IAddress>(
       lng: { type: Number },
     },
     isDefault: { type: Boolean, default: false },
+    price:{
+      type:Number
+    }
   },
   { timestamps: true }
 );

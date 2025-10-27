@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+  import { Request, Response } from "express";
 import { Category } from "../../src/models/Category.js";
 import  s3  from "../config/arvans3.js";
 import Product from "../../src/models/Product.js";
