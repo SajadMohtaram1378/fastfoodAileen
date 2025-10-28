@@ -1,6 +1,6 @@
 import express from "express";
 import { loginUser } from "../../src/middlewares/loginUser.js";
-import { getCart, removeCart, updateCart } from "../../src/controllers/cartCn.js";
+import { getCart, removeCart, updateCart } from "../../src/controllers/cartCn.ts";
 import { validate } from "../../src/middlewares/validation.middleware.js";
 import { updateCartSchema } from "../../src/validation/cart.validation.js";
 
