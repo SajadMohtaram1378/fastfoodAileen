@@ -1,5 +1,6 @@
 import express, { Request, Response, Application } from "express";
 import dotenv from "dotenv";
+import morgan from "morgan";
 import { connectToDataBase } from "./config/dbConnection.js";
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
@@ -8,6 +9,7 @@ import cartRoutes from "./routes/cart.routes.js";
 import adressRoutes from "./routes/address.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import printRoutes from "./routes/print.routes.js"
+import { loggerStream } from "./config/logger.js";
 dotenv.config({ path: "./.env" });
 
 export const createApp = async () => {
@@ -15,6 +17,8 @@ export const createApp = async () => {
 
   const app: Application = express();
   app.use(express.json());
+app.use(morgan("combined", { stream: loggerStream }));
+
 
   // Routes
   app.use("/api/auth", authRoutes);

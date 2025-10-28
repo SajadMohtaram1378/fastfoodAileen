@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+// مرحله اول ثبت‌نام
 export const registerSchema = Joi.object({
   name: Joi.string()
     .pattern(/^[A-Za-z\s]{2,50}$/)
@@ -36,6 +37,7 @@ export const registerSchema = Joi.object({
     }),
 });
 
+// مرحله دوم ثبت‌نام (OTP + داده‌های مرحله اول)
 export const registerStep2Schema = Joi.object({
   otp: Joi.string()
     .pattern(/^\d{4,6}$/)
@@ -50,12 +52,8 @@ export const registerStep2Schema = Joi.object({
   address: registerSchema.extract("address"),
 });
 
+// ورود کاربر
 export const loginSchema = Joi.object({
   numberPhone: registerSchema.extract("numberPhone"),
   password: registerSchema.extract("password"),
 });
-
-// export const otpSchema = Joi.object({
-//   numberPhone: registerSchema.extract("numberPhone"),
-//   otp: registerStep2Schema.extract("otp"),
-// });

@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
-const escpos = require("escpos");
-const Network = require("escpos-network");
-escpos.Network = Network;
+import escposPkg from 'escpos';
+const { Network } = escposPkg;
+const escpos = escposPkg;
+
 
 type AuthRequest = Request & {
   user?: {
@@ -35,7 +36,7 @@ export const printReceiptAgain = async (req: AuthRequest, res: Response) => {
     const printer = new escpos.Printer(device);
 
     device.open(() => {
-      printer
+      (printer as any)
         .align("lt")
         .text(content)
         .cut()

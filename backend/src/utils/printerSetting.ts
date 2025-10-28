@@ -1,5 +1,6 @@
-const escpos = require("escpos");
-const Network = require("escpos-network");
+import escposPkg from 'escpos';
+const { Network } = escposPkg;
+const escpos = escposPkg;
 
 // اتصال Network به escpos
 escpos.Network = Network;
@@ -45,7 +46,7 @@ export const printReceipt = async (options: ReceiptOptions) => {
     const device = new Network(printerIp);
     const printer = new escpos.Printer(device);
     device.open(() => {
-      printer
+      (printer as any)
         .align("ct")
         .text(`${type.toUpperCase()} RECEIPT`)
         .text(`Receipt #: ${receiptNumber}`)

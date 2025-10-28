@@ -1,6 +1,7 @@
 import { createApp } from "./app.js";
 
-const port = process.env.HTTP_PORT || 5000;
+
+const port = process.env.HTTP_PORT! || 5000;
 
 async function start() {
   try {

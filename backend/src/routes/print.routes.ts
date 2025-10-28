@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { adminUser } from "../../src/middlewares/adminUser";
-import { printReceiptAgain } from "../../src/controllers/printerCn";
+import { adminUser } from "../middlewares/adminUser.js";
+import { printReceiptAgain } from "../controllers/printerCn.js";
 
 const router = Router();
 
