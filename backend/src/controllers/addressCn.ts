@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { addressService } from "../service/address.service.js";
-import { logger } from "../config/logger.js";
-import { addAddressSchema, setDefaultAddressSchema } from "../validation/address.validation.js";
+import { addressService } from "../service/address.service.ts";
+import { logger } from "../config/logger.ts";
+import { addAddressSchema, setDefaultAddressSchema } from "../validation/address.validation.ts";
 
 // ----------------- Add Address -----------------
 export const addAddress = async (req: Request, res: Response) => {
