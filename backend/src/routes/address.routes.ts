@@ -1,13 +1,13 @@
 import express from "express";
 const router = express.Router();
 
-import { loginUser } from "../../src/middlewares/loginUser.js";
+import { loginUser } from "@/middlewares/loginUser";
 import {
   addAddress,
   deleteAddress,
   deleteAllAddresses,
   setDefaultAddress,
-} from "../../src/controllers/addressCn.js";
+} from "@/controllers/addressCn";
 
 router.post("/add-address", loginUser, addAddress);
 router.post("/set-default", loginUser, setDefaultAddress);

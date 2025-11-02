@@ -1,10 +1,10 @@
 import express from "express";
 import multer from "multer";
-import { createCategory, getAllCategories, updateCategory } from "../../src/controllers/categoryCn.ts";
-import { loginUser } from "../../src/middlewares/loginUser.js";
-import { adminUser } from "../../src/middlewares/adminUser.js";
-import { validate } from "../../src/middlewares/validation.middleware.js";
-import { createCategorySchema, updateCategorySchema } from "../../src/validation/category.validation.js";
+import { createCategory, getAllCategories, updateCategory } from "@/controllers/categoryCn";
+import { loginUser } from "@/middlewares/loginUser";
+import { adminUser } from "@/middlewares/adminUser";
+import { validate } from "@/middlewares/validation.middleware";
+import { createCategorySchema, updateCategorySchema } from "@/validation/category.validation";
 
 const router = express.Router();
 const upload = multer(); // memory storage

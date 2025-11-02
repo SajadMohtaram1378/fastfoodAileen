@@ -10,12 +10,12 @@ import {
   logOut,
   registerStep1,
   registerStep2,
-} from "../../src/controllers/authCn.ts"; 
-import { loginUser } from "../../src/middlewares/loginUser.ts";
-import { adminUser } from "../../src/middlewares/adminUser.ts";
-import { validate } from "../../src/middlewares/validation.middleware.ts"; 
-import { logger } from "../../src/config/logger.ts";
-import { loginSchema ,registerSchema, registerStep2Schema  } from "../../src/validation/auth.validation.ts";
+} from "@/controllers/authCn"; 
+import { loginUser } from "@/middlewares/loginUser";
+import { adminUser } from "@/middlewares/adminUser";
+import { validate } from "@/middlewares/validation.middleware"; 
+import { logger } from "@/config/logger";
+import { loginSchema ,registerSchema, registerStep2Schema  } from "@/validation/auth.validation";
 
 const router = express.Router();
 
@@ -42,12 +42,12 @@ router.post("/forget-password/step2", forgetPasswordstep2);
 router.post("/forget-password/step3", forgetPasswordstep3);
 
 // تغییر رمز عبور (فقط کاربر لاگین شده)
-router.post("/change-password", loginUser, changePassword);
+router.patch("/change-password", loginUser, changePassword);
 
 // خروج کاربر
-router.post("/logOut", loginUser, logOut);
+router.post("/logout", loginUser, logOut);
 
 // گرفتن تمام کاربران (فقط admin)
-router.post("/get-users", loginUser, adminUser, getAllUsers);
+router.get("/users", loginUser, adminUser, getAllUsers);
 
 export default router;

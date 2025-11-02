@@ -46,10 +46,6 @@ export const registerStep2Schema = Joi.object({
       "string.pattern.base": "OTP باید عددی 4 تا 6 رقمی باشد",
       "string.empty": "OTP الزامی است",
     }),
-  name: registerSchema.extract("name"),
-  numberPhone: registerSchema.extract("numberPhone"),
-  password: registerSchema.extract("password"),
-  address: registerSchema.extract("address"),
 });
 
 // ورود کاربر

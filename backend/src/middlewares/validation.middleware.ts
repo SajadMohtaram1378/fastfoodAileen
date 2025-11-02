@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "joi";
-import { logger } from "../config/logger.ts";
+import { logger } from "@/config/logger";
 
 export const validate =
   (schema: ObjectSchema) =>

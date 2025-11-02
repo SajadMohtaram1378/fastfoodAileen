@@ -1,7 +1,7 @@
 
 import { Request, Response } from "express";
-import { createPaymentService, verifyPaymentService } from "../service/payment.service.js";
-import { logger } from "../config/logger.js";
+import { createPaymentService, verifyPaymentService } from "@/service/payment.service";
+import { logger } from "@/config/logger";
 
 type AuthRequest = Request & { user?: { id: string; role: "admin" | "user" } };
 

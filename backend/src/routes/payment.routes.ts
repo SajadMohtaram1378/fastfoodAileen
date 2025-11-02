@@ -1,8 +1,8 @@
 import express from "express";
-import { createPayment, verifyPayment } from "../../src/controllers/paymentCn.js";
-import { loginUser } from "../../src/middlewares/loginUser.ts";
-import { validate } from "../../src/middlewares/validation.middleware.ts";
-import { createPaymentSchema, verifyPaymentSchema } from "../../src/validation/payment.validation.js";
+import { createPayment, verifyPayment } from "@/controllers/paymentCn";
+import { loginUser } from "@/middlewares/loginUser.ts";
+import { validate } from "@/middlewares/validation.middleware";
+import { createPaymentSchema, verifyPaymentSchema } from "@/validation/payment.validation";
 
 const router = express.Router();
 

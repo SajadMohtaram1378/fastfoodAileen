@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { cartService } from "../service/cart.service.ts";
-import { logger } from "../config/logger.js";
-import { updateCartSchema } from "../validation/cart.validation.ts";
+import { cartService } from "@/service/cart.service";
+import { logger } from "@/config/logger";
+import { updateCartSchema } from "@/validation/cart.validation";
 
 // تایپ برای Request که user داره
 interface AuthRequest extends Request {

@@ -1,5 +1,5 @@
-import { Category } from "../../src/models/Category.js";
-import s3 from "../config/arvans3.js";
+import { Category } from "@/models/Category";
+import s3 from "@/config/arvans3";
 
 interface CategoryPayload {
   name?: string;

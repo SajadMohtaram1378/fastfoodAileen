@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { productService } from "../../src/service/product.service.ts";
-import { logger } from "../../src/config/logger.ts";
+import { productService } from "@/service/product.service";
+import { logger } from "@/config/logger";
 type AuthRequest = Request & {
   user?: { id: string; role: "admin" | "user" };
 };

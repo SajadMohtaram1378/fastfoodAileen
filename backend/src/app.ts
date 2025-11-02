@@ -1,24 +1,21 @@
 import express, { Request, Response, Application } from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import { connectToDataBase } from "./config/dbConnection.js";
-import authRoutes from "./routes/auth.routes.js";
-import productRoutes from "./routes/product.routes.js";
-import categoryRoutes from "./routes/category.routes.js";
-import cartRoutes from "./routes/cart.routes.js";
-import adressRoutes from "./routes/address.routes.js";
-import paymentRoutes from "./routes/payment.routes.js";
-import printRoutes from "./routes/print.routes.js"
-import { loggerStream } from "./config/logger.js";
+import { connectToDataBase } from "./config/dbConnection";
+import authRoutes from "./routes/auth.routes";
+import productRoutes from "./routes/product.routes";
+import categoryRoutes from "./routes/category.routes";
+import cartRoutes from "./routes/cart.routes";
+import adressRoutes from "./routes/address.routes";
+import paymentRoutes from "./routes/payment.routes";
+import printRoutes from "./routes/print.routes";
+import { loggerStream } from "./config/logger";
 dotenv.config({ path: "./.env" });
 
 export const createApp = async () => {
-  await connectToDataBase();
-
   const app: Application = express();
   app.use(express.json());
-app.use(morgan("combined", { stream: loggerStream }));
-
+  app.use(morgan("combined", { stream: loggerStream }));
 
   // Routes
   app.use("/api/auth", authRoutes);
@@ -33,10 +30,16 @@ app.use(morgan("combined", { stream: loggerStream }));
   app.get("/", (req: Request, res: Response) => {
     res.send("Server is running...");
   });
-
+  // فقط وقتی NODE_ENV !== "test" هست وصل شو
+  if (process.env.NODE_ENV !== "test") {
+    connectToDataBase();
+    
+  }
   // 404
 
   // Global Error Handler
 
   return app;
 };
+
+export default createApp;

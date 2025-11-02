@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import Cart from "../../src/models/Cart.js";
-import Product from "../../src/models/Product.js";
-import redis from "../../src/config/redis.js";
-import { logger } from "../../src/config/logger.js";
+import Cart from "@/models/Cart";
+import Product from "@/models/Product";
+import redis from "@/config/redis";
+import { logger } from "@/config/logger";
 
 interface CartItem {
   productId: string;

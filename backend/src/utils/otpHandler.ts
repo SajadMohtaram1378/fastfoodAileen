@@ -1,4 +1,4 @@
-import redis from "../config/redis.js";
+import redis from "@/config/redis";
 
 export class OtpError extends Error {
   public code: string;

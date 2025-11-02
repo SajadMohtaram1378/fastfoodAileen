@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
 import escposPkg from "escpos";
-import { logger } from "../config/logger.js";
+import { logger } from "@/config/logger";
 const { Network, Printer } = escposPkg;
 
 type AuthRequest = Request & {

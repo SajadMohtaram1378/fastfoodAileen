@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Address from "../models/Address.ts";
-import redis from "../config/redis.ts";
+import Address from "@/models/Address";
+import redis from "@/config/redis";
 
 interface AddressInput {
   address: string;

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { adminUser } from "../middlewares/adminUser.js";
-import { loginUser } from "../middlewares/loginUser.js";
-import { printReceiptAgain } from "../controllers/printerCn.js";
-import { validate } from "../middlewares/validation.middleware.js";
-import { printReceiptAgainSchema } from "../validation/print.validation.js";
+import { adminUser } from "@/middlewares/adminUser";
+import { loginUser } from "@/middlewares/loginUser";
+import { printReceiptAgain } from "@/controllers/printerCn";
+import { validate } from "@/middlewares/validation.middleware";
+import { printReceiptAgainSchema } from "@/validation/print.validation";
 
 const router = Router();
 

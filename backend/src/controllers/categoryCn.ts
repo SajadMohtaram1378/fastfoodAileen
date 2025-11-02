@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { categoryService } from "../service/category.service.js";
-import { logger } from "../config/logger.js";
-import { createCategorySchema, updateCategorySchema } from "../validation/category.validation.js";
+import { categoryService } from "@/service/category.service";
+import { logger } from "@/config/logger";
+import { createCategorySchema, updateCategorySchema } from "@/validation/category.validation";
 
 // ------------------ Create Category ------------------
 export const createCategory = async (req: Request, res: Response) => {

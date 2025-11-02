@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import Cart from "../models/Cart.js";
-import Payment from "../models/Payment.js";
-import Address from "../models/Address.js";
-import Order from "../models/Order.js";
-import { calculateShippingPrice } from "./shipping.service.js";
-import { printReceipt } from "../utils/printerSetting.js";
+import Cart from "@/models/Cart";
+import Payment from "@/models/Payment";
+import Address from "@/models/Address";
+import Order from "@/models/Order";
+import { calculateShippingPrice } from "./shipping.service";
+import { printReceipt } from "@/utils/printerSetting";
 import axios from "axios";
 
 const RESTAURANT_COORDS = {

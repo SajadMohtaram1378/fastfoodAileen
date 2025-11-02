@@ -5,9 +5,9 @@ import {
   getAllProducts,
   getOneProduct,
   updateOneProduct,
-} from "../../src/controllers/productCn.js";
-import { loginUser } from "../../src/middlewares/loginUser.js";
-import { adminUser } from "../../src/middlewares/adminUser.js";
+} from "@/controllers/productCn";
+import { loginUser } from "@/middlewares/loginUser";
+import { adminUser } from "@/middlewares/adminUser";
 const router = express.Router();
 
 router.post("/create-product", loginUser, adminUser, createProduct);
